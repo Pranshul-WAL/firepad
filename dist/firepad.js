@@ -6422,7 +6422,8 @@ firepad.Firepad = (function (global) {
          self.insertEntity(id, { 'src': URL.createObjectURL(imgSrc) });
       self.firepadWrapper_.removeChild(dialog);
     };
-    var input = utils.elt('input', null, { 'class': 'firepad-dialog-input', 'id': id, 'type': 'file', 'accept': '.png, .jpg, .jpeg', 'onchange': loadFile(event), 'placeholder': placeholder, 'autofocus': 'autofocus' });
+    var input = utils.elt('input', null, { 'class': 'firepad-dialog-input', 'id': id, 'type': 'file', 'accept': '.png, .jpg, .jpeg', 'placeholder': placeholder, 'autofocus': 'autofocus' });
+    utils.on(change, 'click', utils.stopEventAnd(loadFile));
 
     var submit = utils.elt('a', 'Submit', { 'class': 'firepad-btn', 'id': 'submitbtn' });
     utils.on(submit, 'click', utils.stopEventAnd(cb));
