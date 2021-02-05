@@ -6400,49 +6400,42 @@ firepad.Firepad = (function (global) {
   };
 
   Firepad.prototype.makeImageDialog_ = function () {
-    // this.makeDialog_('img', 'Insert image url');
-    utils.elt('input', null, { 'class': 'firepad-dialog-input', 'id': 'img', 'type': 'file', 'accept': '.png, .jpg, .jpeg', 'onchange': loadFile(event), 'placeholder': placeholder, 'autofocus': 'autofocus' });
-    var loadFile = function (event) {
-      // var image = document.getElementById('img');
-      // image.src = URL.createObjectURL(event.target.files[0]);
-      self.insertEntity('img', { 'src': URL.createObjectURL(event.target.files[0]) })
-    };
+    this.makeDialog_('img', 'Insert image url');
   };
 
   Firepad.prototype.makeDialog_ = function (id, placeholder) {
     var self = this;
-
-    // var hideDialog = function () {
-    //   var dialog = document.getElementById('overlay');
-    //   dialog.style.visibility = "hidden";
-    //   self.firepadWrapper_.removeChild(dialog);
-    // };
-    var loadFile = function (event) {
-      var image = document.getElementById(id);
-      image.src = URL.createObjectURL(event.target.files[0]);
+    let imgSrc
+    var hideDialog = function () {
+      var dialog = document.getElementById('overlay');
+      dialog.style.visibility = "hidden";
+      self.firepadWrapper_.removeChild(dialog);
     };
-    // var cb = function () {
-    //   var dialog = document.getElementById('overlay');
-    //   dialog.style.visibility = "hidden";
-    //    var image = document.getElementById(id);
-    //    if (image !== null)
-    //      self.insertEntity(id, { 'src': URL.createObjectURL(event.target.files[0]) });
-    //   self.firepadWrapper_.removeChild(dialog);
-    // };
+    var loadFile = function (event) {
+      imgSrc = event.target.files[0]
+    };
+    var cb = function () {
+      var dialog = document.getElementById('overlay');
+      dialog.style.visibility = "hidden";
+       var image = document.getElementById(id);
+       if (image !== null)
+         self.insertEntity(id, { 'src': URL.createObjectURL(imgSrc) });
+      self.firepadWrapper_.removeChild(dialog);
+    };
     var input = utils.elt('input', null, { 'class': 'firepad-dialog-input', 'id': id, 'type': 'file', 'accept': '.png, .jpg, .jpeg', 'onchange': loadFile(event), 'placeholder': placeholder, 'autofocus': 'autofocus' });
 
-    // var submit = utils.elt('a', 'Submit', { 'class': 'firepad-btn', 'id': 'submitbtn' });
-    // utils.on(submit, 'click', utils.stopEventAnd(cb));
+    var submit = utils.elt('a', 'Submit', { 'class': 'firepad-btn', 'id': 'submitbtn' });
+    utils.on(submit, 'click', utils.stopEventAnd(cb));
 
-    // var cancel = utils.elt('a', 'Cancel', { 'class': 'firepad-btn' });
-    // utils.on(cancel, 'click', utils.stopEventAnd(hideDialog));
+    var cancel = utils.elt('a', 'Cancel', { 'class': 'firepad-btn' });
+    utils.on(cancel, 'click', utils.stopEventAnd(hideDialog));
 
-    // var buttonsdiv = utils.elt('div', [submit, cancel], { 'class': 'firepad-btn-group' });
+    var buttonsdiv = utils.elt('div', [submit, cancel], { 'class': 'firepad-btn-group' });
 
-    // var div = utils.elt('div', [input, buttonsdiv], { 'class': 'firepad-dialog-div' });
-    // var dialog = utils.elt('div', [div], { 'class': 'firepad-dialog', id: 'overlay' });
+    var div = utils.elt('div', [input, buttonsdiv], { 'class': 'firepad-dialog-div' });
+    var dialog = utils.elt('div', [div], { 'class': 'firepad-dialog', id: 'overlay' });
 
-    // this.firepadWrapper_.appendChild(dialog);
+    this.firepadWrapper_.appendChild(dialog);
   };
 
   Firepad.prototype.addToolbar_ = function () {
