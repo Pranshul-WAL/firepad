@@ -6412,14 +6412,17 @@ firepad.Firepad = (function (global) {
       self.firepadWrapper_.removeChild(dialog);
     };
     var loadFile = function (event) {
-      imgSrc = event.target.files[0]
+      imgSrc = URL.createObjectURL(event.target.files[0])
     };
     var cb = function () {
       var dialog = document.getElementById('overlay');
       dialog.style.visibility = "hidden";
        var image = document.getElementById(id);
        if (image !== null)
-         self.insertEntity(id, { 'src': URL.createObjectURL(imgSrc) });
+        //  self.insertEntity(id, { 'src':  imgSrc});
+        console.log('image:', image)
+        console.log({imgSrc})
+        image.src = imgSrc
       self.firepadWrapper_.removeChild(dialog);
     };
     var input = utils.elt('input', null, { 'class': 'firepad-dialog-input', 'id': id, 'type': 'file', 'accept': '.png, .jpg, .jpeg', 'placeholder': placeholder, 'onchange': utils.stopEventAnd(loadFile), 'autofocus': 'autofocus' });
