@@ -6398,7 +6398,18 @@ firepad.Firepad = (function (global) {
       throw new Error('You can\'t use a Firepad after calling dispose()!  [called ' + funcName + ']');
     }
   };
-
+  Firepad.prototype.readURL = function (input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#blah')
+                .attr('src', e.target.result)
+                .width(150)
+                .height(200);
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
   Firepad.prototype.makeImageDialog_ = function () {
     this.makeDialog_('img', 'Insert image url');
   };
@@ -6473,7 +6484,7 @@ firepad.Firepad = (function (global) {
     this.toolbar.on('todo-list', this.todo, this);
     this.toolbar.on('indent-increase', this.indent, this);
     this.toolbar.on('indent-decrease', this.unindent, this);
-    this.toolbar.on('insert-image', this.makeImageDialog_, this);
+    this.toolbar.on('insert-image', this.readURL, this);
 
     this.firepadWrapper_.insertBefore(this.toolbar.element(), this.firepadWrapper_.firstChild);
   };
