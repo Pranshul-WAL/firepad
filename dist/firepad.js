@@ -6399,7 +6399,8 @@ firepad.Firepad = (function (global) {
     }
   };
   Firepad.prototype.readURL = function (input) {
-    if (input.files && input.files[0]) {
+    console.log({input})
+    if (input.target.files && input.target.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {
             $('#blah')
@@ -6407,7 +6408,7 @@ firepad.Firepad = (function (global) {
                 .width(150)
                 .height(200);
         };
-        reader.readAsDataURL(input.files[0]);
+        reader.readAsDataURL(input.target.files[0]);
     }
 }
   Firepad.prototype.makeImageDialog_ = function () {
@@ -6484,7 +6485,7 @@ firepad.Firepad = (function (global) {
     this.toolbar.on('todo-list', this.todo, this);
     this.toolbar.on('indent-increase', this.indent, this);
     this.toolbar.on('indent-decrease', this.unindent, this);
-    this.toolbar.on('insert-image', this.readURL, this);
+    this.toolbar.on('insert-image', utils.stopEventAnd(this.readURL), this);
 
     this.firepadWrapper_.insertBefore(this.toolbar.element(), this.firepadWrapper_.firstChild);
   };
